@@ -1,18 +1,19 @@
-# Meridian — Retention Intelligence
+# AI-Driven Platform for Predictive Customer Retention
 
-Runnable Vite + React version of the Meridian dashboard.
+An AI-driven customer retention platform that helps businesses **predict customer churn, identify churn drivers, and take personalized retention actions**.
 
-## Run
+## Features
 
-Open a terminal in this folder (the folder containing `package.json`):
+* 🔮 Customer churn risk prediction
+* 📊 Interactive retention dashboard
+* 🧠 AI-powered retention recommendations
+* 🔍 Churn driver analysis
+* 👥 Customer segmentation
+* 🎯 Personalized retention playbooks
+* 📋 Customer risk management
 
-```bash
-npm install
-npm run dev
-```
+## Tech Stack
 
-Then open the localhost URL printed by Vite.
+**React.js • Vite • JavaScript • CSS • Node.js**
 
-Do NOT run the commands from inside `src`.
-
-The app opens directly to the Meridian dashboard/Portfolios view flow instead of the `twitttt` starter page.
+Built to help businesses **identify at-risk customers early and improve retention through data-driven decisions.**

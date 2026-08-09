@@ -17,3 +17,5 @@ An AI-driven customer retention platform that helps businesses **predict custome
 **React.js • Vite • JavaScript • CSS • Node.js**
 
 Built to help businesses **identify at-risk customers early and improve retention through data-driven decisions.**
+
+https://predictive-customer-retention.netlify.app/

@@ -1,4 +1,5 @@
 # AI-Driven Platform for Predictive Customer Retention
+<<<<<<< HEAD
 ### Enterprise Churn Intelligence, Explainable AI, Next Best Action & PostgreSQL Backend
 
 An enterprise-grade, end-to-end customer retention intelligence platform built with **React, Vite, Node.js, Express, and PostgreSQL 17**. It predicts customer churn, explains risk drivers using SHAP/LIME, calculates Customer Lifetime Value (CLV), simulates concession policies, automates campaigns, and provides grounded GenAI insights via RAG.
@@ -170,3 +171,25 @@ npm run dev
 ```
 
 Visit **http://localhost:5173** to access the complete Meridian Retention Intelligence Platform!
+=======
+
+An AI-driven customer retention platform that helps businesses **predict customer churn, identify churn drivers, and take personalized retention actions**.
+
+## Features
+
+* 🔮 Customer churn risk prediction
+* 📊 Interactive retention dashboard
+* 🧠 AI-powered retention recommendations
+* 🔍 Churn driver analysis
+* 👥 Customer segmentation
+* 🎯 Personalized retention playbooks
+* 📋 Customer risk management
+
+## Tech Stack
+
+**React.js • Vite • JavaScript • CSS • Node.js**
+
+Built to help businesses **identify at-risk customers early and improve retention through data-driven decisions.**
+
+https://predictive-customer-retention.netlify.app/
+>>>>>>> 9e878aba1ab9205deea900f3c6716300711f862d

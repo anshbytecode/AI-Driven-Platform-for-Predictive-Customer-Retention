@@ -4,11 +4,15 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+<<<<<<< HEAD
     "dev:all": "concurrently \"npm run server\" \"npm run dev\"",
     "dev": "vite",
     "server": "node server/index.js",
     "db:seed": "node server/seed.js",
     "start": "node server/index.js",
+=======
+    "dev": "vite",
+>>>>>>> 9e878aba1ab9205deea900f3c6716300711f862d
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -21,7 +25,10 @@
     "recharts": "latest"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "concurrently": "^10.0.7",
+=======
+>>>>>>> 9e878aba1ab9205deea900f3c6716300711f862d
     "vite": "latest"
   }
 }

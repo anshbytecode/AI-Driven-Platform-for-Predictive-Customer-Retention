@@ -102,10 +102,17 @@ export default function AuthScreen({ onLogin }) {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
               <button
+<<<<<<< HEAD
                 onClick={() => handleDemoLogin({ name: "Anshul", email: "anshul@meridian.bank", role: "Head of Retention" })}
                 style={demoBtn}
               >
                 <b>Anshul</b>
+=======
+                onClick={() => handleDemoLogin({ name: "Anshul Mehta", email: "anshul.m@meridian.bank", role: "Head of Retention" })}
+                style={demoBtn}
+              >
+                <b>Anshul Mehta</b>
+>>>>>>> 9e878aba1ab9205deea900f3c6716300711f862d
                 <span style={{ fontSize: 10.5, color: COLOR.inkSoft }}>Head of Retention</span>
               </button>
               <button

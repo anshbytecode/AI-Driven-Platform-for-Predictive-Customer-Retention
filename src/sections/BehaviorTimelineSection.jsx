@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
-import { 
-  Activity, Play, CheckCircle2, AlertTriangle, Clock, 
-  Smartphone, Monitor, Globe, ShoppingCart, UserCheck, 
-  Zap, Heart, ShieldAlert, ArrowRight, ArrowDownRight, RefreshCw 
+import {
+  Activity, Play, CheckCircle2, AlertTriangle, Clock,
+  Smartphone, Monitor, Globe, ShoppingCart, UserCheck,
+  Zap, Heart, ShieldAlert, ArrowRight, ArrowDownRight, RefreshCw
 } from "lucide-react";
 import { COLOR } from "../constants/theme";
 import { fmtINR } from "../utils/helpers";

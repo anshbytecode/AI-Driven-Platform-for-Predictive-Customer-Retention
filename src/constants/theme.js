@@ -39,6 +39,7 @@ export const SECTIONS = [
   "Real-Time Stream",
   "Model Monitoring",
   "Privacy & Security",
+  "Database Studio",
   "AI Playbooks",
   "Portfolios",
 ];

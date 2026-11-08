@@ -946,6 +946,88 @@ app.post('/api/security/audit-log', async (req, res) => {
   }
 });
 
+// ---------------------------------------------------------------------------
+// POSTGRESQL DATABASE STUDIO (Neon/Supabase Style Visual Table Explorer)
+// ---------------------------------------------------------------------------
+app.get('/api/database/tables', async (req, res) => {
+  try {
+    const allowedTables = [
+      'customers', 'customer_behavior_events', 'customer_events', 'explainable_ai',
+      'campaigns', 'ab_tests', 'retention_journeys', 'relationship_managers',
+      'nlp_sentiment_logs', 'fraud_anomalies', 'model_monitoring_logs',
+      'audit_logs', 'rag_documents', 'closed_loop_feedback', 'early_warning_alerts'
+    ];
+
+    const tablesInfo = [];
+    for (const tbl of allowedTables) {
+      try {
+        const countRes = await dbQuery(`SELECT COUNT(*) as count FROM ${tbl}`);
+        const colRes = await dbQuery(`
+          SELECT column_name, data_type, is_nullable
+          FROM information_schema.columns
+          WHERE table_name = $1 AND table_schema = 'public'
+          ORDER BY ordinal_position
+        `, [tbl]);
+
+        tablesInfo.push({
+          name: tbl,
+          rowCount: parseInt(countRes.rows[0].count, 10),
+          columns: colRes.rows
+        });
+      } catch (e) {
+        // skip if not exists yet
+      }
+    }
+
+    res.json({
+      database: 'meridian_retention_db',
+      connected: true,
+      tables: tablesInfo
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/database/tables/:tableName', async (req, res) => {
+  try {
+    const { tableName } = req.params;
+    const allowedTables = [
+      'customers', 'customer_behavior_events', 'customer_events', 'explainable_ai',
+      'campaigns', 'ab_tests', 'retention_journeys', 'relationship_managers',
+      'nlp_sentiment_logs', 'fraud_anomalies', 'model_monitoring_logs',
+      'audit_logs', 'rag_documents', 'closed_loop_feedback', 'early_warning_alerts'
+    ];
+
+    if (!allowedTables.includes(tableName)) {
+      return res.status(400).json({ error: 'Invalid or restricted table name' });
+    }
+
+    const colCheck = await dbQuery(`
+      SELECT column_name, data_type 
+      FROM information_schema.columns 
+      WHERE table_name = $1 AND table_schema = 'public'
+      ORDER BY ordinal_position
+    `, [tableName]);
+
+    const cols = colCheck.rows.map(c => c.column_name);
+    let orderClause = '';
+    if (cols.includes('created_at')) orderClause = 'ORDER BY created_at DESC';
+    else if (cols.includes('id')) orderClause = 'ORDER BY id DESC';
+
+    const { rows } = await dbQuery(`SELECT * FROM ${tableName} ${orderClause} LIMIT 100`);
+
+    res.json({
+      tableName,
+      rowCount: rows.length,
+      columns: colCheck.rows,
+      rows
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // START SERVER
 async function start() {
   const isConnected = await testConnection();

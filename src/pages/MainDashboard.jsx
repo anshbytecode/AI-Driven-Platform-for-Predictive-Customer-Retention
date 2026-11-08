@@ -24,6 +24,7 @@ import MultiAgentClosedLoopSection from "../sections/MultiAgentClosedLoopSection
 import RealtimeStreamSection from "../sections/RealtimeStreamSection";
 import ModelMonitoringSection from "../sections/ModelMonitoringSection";
 import PrivacyAuditSection from "../sections/PrivacyAuditSection";
+import DatabaseStudioSection from "../sections/DatabaseStudioSection";
 import PlaybooksView from "../sections/PlaybooksView";
 import PortfoliosView from "../sections/PortfoliosView";
 
@@ -386,6 +387,9 @@ export default function MainDashboard({ user, onLogout }) {
           showToast={showToast}
         />
       );
+      break;
+    case "Database Studio":
+      mainContent = <DatabaseStudioSection showToast={showToast} />;
       break;
     case "AI Playbooks":
       mainContent = <PlaybooksView {...sectionProps} />;

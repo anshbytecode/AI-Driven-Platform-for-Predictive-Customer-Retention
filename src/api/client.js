@@ -274,3 +274,26 @@ export async function logAuditAction(payload) {
   }
 }
 
+// Database Studio (Neon/Supabase Table Explorer)
+export async function fetchDatabaseTables() {
+  try {
+    const res = await fetch(`${API_BASE}/database/tables`);
+    if (!res.ok) throw new Error('Failed to fetch database tables');
+    return await res.json();
+  } catch (err) {
+    console.warn('[API Client] Error fetching DB tables:', err);
+    return null;
+  }
+}
+
+export async function fetchDatabaseTableRows(tableName) {
+  try {
+    const res = await fetch(`${API_BASE}/database/tables/${tableName}`);
+    if (!res.ok) throw new Error(`Failed to fetch rows for ${tableName}`);
+    return await res.json();
+  } catch (err) {
+    console.warn(`[API Client] Error fetching rows for ${tableName}:`, err);
+    return null;
+  }
+}
+

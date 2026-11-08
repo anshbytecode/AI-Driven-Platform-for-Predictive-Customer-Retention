@@ -48,6 +48,7 @@ export default function Sidebar({
         { icon: RefreshCw, label: "Multi-Agent & Closed Loop", badge: "7 Agents", tone: "brass", desc: "Autonomous Self-Learning" },
         { icon: LineChart, label: "Model Monitoring", desc: "ROC-AUC 0.941 & Drift" },
         { icon: Lock, label: "Privacy & Security", desc: "RBAC & Audit Trail" },
+        { icon: Database, label: "Database Studio", desc: "Live PostgreSQL Table Viewer" },
         { icon: Sparkles, label: "AI Playbooks", desc: "Automated RM recipes" },
         { icon: Landmark, label: "Portfolios", desc: "Relationship Manager Desk" }
       ]

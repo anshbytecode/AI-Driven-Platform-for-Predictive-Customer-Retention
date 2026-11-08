@@ -424,6 +424,17 @@ app.get('/api/early-warnings', async (req, res) => {
   }
 });
 
+app.patch('/api/early-warnings/resolve/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await dbQuery(`UPDATE early_warning_alerts SET is_resolved = true WHERE customer_id = $1 OR id::text = $1`, [id]);
+    await dbQuery(`UPDATE customers SET early_warning_stage = 'Normal', risk = GREATEST(20, risk - 15), updated_at = NOW() WHERE id = $1`, [id]);
+    res.json({ success: true, message: `Alert for ${id} remediated and resolved in PostgreSQL` });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // CLV Predictive Overview (Req 7)
 app.get('/api/clv/overview', async (req, res) => {
   try {
@@ -541,8 +552,32 @@ app.get('/api/nlp/sentiment', async (req, res) => {
 // Fraud Sentinel & Anomaly Detection (Req 28)
 app.get('/api/fraud/sentinel', async (req, res) => {
   try {
-    const { rows } = await dbQuery(`SELECT * FROM fraud_anomalies ORDER BY detected_at DESC LIMIT 20`);
+    const { rows } = await dbQuery(`SELECT * FROM fraud_anomalies ORDER BY created_at DESC LIMIT 20`);
     res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.patch('/api/fraud/cases/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { action_taken, flag_level } = req.body;
+    const fields = [];
+    const values = [];
+    if (action_taken) {
+      values.push(action_taken);
+      fields.push(`action_taken = $${values.length}`);
+    }
+    if (flag_level) {
+      values.push(flag_level);
+      fields.push(`flag_level = $${values.length}`);
+    }
+    if (fields.length === 0) return res.json({ success: true });
+    values.push(id);
+    const query = `UPDATE fraud_anomalies SET ${fields.join(', ')} WHERE id = $${values.length} RETURNING *`;
+    const { rows } = await dbQuery(query, values);
+    res.json(rows[0] || { success: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -913,6 +948,44 @@ app.post('/api/campaigns', async (req, res) => {
     res.status(201).json(rows[0]);
   } catch (err) {
     console.error('[Campaigns POST Error]', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.patch('/api/campaigns/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status, budget } = req.body;
+    const fields = [];
+    const values = [];
+
+    if (status) {
+      values.push(status);
+      fields.push(`status = $${values.length}`);
+    }
+    if (budget !== undefined) {
+      values.push(parseFloat(budget));
+      fields.push(`budget = $${values.length}`);
+    }
+
+    if (fields.length === 0) return res.json({ success: true });
+
+    values.push(id);
+    const query = `UPDATE campaigns SET ${fields.join(', ')} WHERE id = $${values.length} RETURNING *`;
+    const { rows } = await dbQuery(query, values);
+    if (rows.length === 0) return res.status(404).json({ error: 'Campaign not found' });
+    res.json(rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/campaigns/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await dbQuery('DELETE FROM campaigns WHERE id = $1', [id]);
+    res.json({ success: true, message: `Deleted campaign ${id}` });
+  } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });

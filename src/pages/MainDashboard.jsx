@@ -344,7 +344,7 @@ export default function MainDashboard({ user, onLogout }) {
     case "Segmentation & RFM":
     case "Segmentation":
     case "Segments":
-      mainContent = <SegmentationEarlyWarningSection customers={withSegment} onOpenCustomer={(c) => setSelected(c)} />;
+      mainContent = <SegmentationEarlyWarningSection customers={withSegment} onOpenCustomer={(c) => setSelected(c)} showToast={showToast} />;
       break;
     case "Opportunity & Uplift":
     case "CLV & Next Best Action":

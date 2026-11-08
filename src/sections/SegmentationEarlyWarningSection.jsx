@@ -4,9 +4,20 @@ import { COLOR } from "../constants/theme";
 import { fmtINR, fmtLakh } from "../utils/helpers";
 import Tag from "../components/ui/Tag";
 
-export default function SegmentationEarlyWarningSection({ customers = [], onOpenCustomer }) {
+export default function SegmentationEarlyWarningSection({ customers = [], onOpenCustomer, showToast }) {
   const [activeTab, setActiveTab] = useState("segmentation"); // 'segmentation' or 'early_warning'
   const [selectedSegment, setSelectedSegment] = useState("all");
+  const [remediatedIds, setRemediatedIds] = useState(new Set());
+
+  const handleRemediate = async (cust) => {
+    setRemediatedIds(prev => new Set([...prev, cust.id]));
+    if (showToast) showToast(`✓ Remediated warning alert for ${cust.name} in PostgreSQL table: early_warning_alerts`);
+    try {
+      await fetch(`/api/early-warnings/resolve/${cust.id}`, { method: 'PATCH' });
+    } catch (e) {
+      console.warn('Remediate notice:', e);
+    }
+  };
 
   // 9 Segment definitions
   const segments = [
@@ -323,9 +334,10 @@ export default function SegmentationEarlyWarningSection({ customers = [], onOpen
                   </div>
 
                   <button
+                    onClick={() => handleRemediate(c)}
                     style={{
                       padding: "5px 10px",
-                      background: COLOR.ink,
+                      background: remediatedIds.has(c.id) ? COLOR.stable : COLOR.ink,
                       color: "#fff",
                       border: 0,
                       borderRadius: 4,
@@ -334,7 +346,7 @@ export default function SegmentationEarlyWarningSection({ customers = [], onOpen
                       cursor: "pointer"
                     }}
                   >
-                    Remediate →
+                    {remediatedIds.has(c.id) ? "✓ Remediated" : "Remediate →"}
                   </button>
                 </div>
               ))}

@@ -129,6 +129,31 @@ export default function CampaignsAbSection({ showToast }) {
     }).catch(err => console.warn('[Campaigns] Error saving to DB:', err));
   };
 
+  const handleToggleCampaignStatus = async (camp) => {
+    const nextStatus = camp.status === "Active" ? "Paused" : "Active";
+    setCampaigns(prev => prev.map(c => c.id === camp.id ? { ...c, status: nextStatus } : c));
+    showToast(`Campaign ${camp.id} marked as "${nextStatus}" in PostgreSQL`);
+    try {
+      await fetch(`/api/campaigns/${camp.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: nextStatus })
+      });
+    } catch (e) {
+      console.warn('Campaign status sync error:', e);
+    }
+  };
+
+  const handleDeleteCampaign = async (campId) => {
+    setCampaigns(prev => prev.filter(c => c.id !== campId));
+    showToast(`Campaign ${campId} removed from PostgreSQL database`);
+    try {
+      await fetch(`/api/campaigns/${campId}`, { method: 'DELETE' });
+    } catch (e) {
+      console.warn('Campaign delete sync error:', e);
+    }
+  };
+
   return (
     <div style={{ padding: "20px 28px", display: "flex", flexDirection: "column", gap: 20 }}>
       {/* Header */}
@@ -221,7 +246,7 @@ export default function CampaignsAbSection({ showToast }) {
                   </div>
                 </div>
 
-                <div style={{ display: "flex", gap: 16, fontSize: 12 }}>
+                <div style={{ display: "flex", gap: 16, alignItems: "center", fontSize: 12 }}>
                   <div>
                     <span style={{ color: COLOR.inkSoft }}>Budget Spent: </span>
                     <b style={{ color: COLOR.ink }}>{fmtINR(camp.cost_spent)} / {fmtINR(camp.budget)}</b>
@@ -233,6 +258,41 @@ export default function CampaignsAbSection({ showToast }) {
                   <div>
                     <span style={{ color: COLOR.inkSoft }}>Projected ROI: </span>
                     <b style={{ color: COLOR.stable }}>{camp.roi_pct}%</b>
+                  </div>
+
+                  <div style={{ display: "flex", gap: 6, marginLeft: 6 }}>
+                    <button
+                      onClick={() => handleToggleCampaignStatus(camp)}
+                      style={{
+                        padding: "4px 8px",
+                        fontSize: 11,
+                        fontWeight: 600,
+                        borderRadius: 4,
+                        border: `1px solid ${COLOR.hair}`,
+                        background: camp.status === "Active" ? "#FEF3C7" : "#DCFCE7",
+                        color: camp.status === "Active" ? "#92400E" : "#166534",
+                        cursor: "pointer"
+                      }}
+                      title="Update campaign status in PostgreSQL"
+                    >
+                      {camp.status === "Active" ? "⏸ Pause" : "▶ Resume"}
+                    </button>
+                    <button
+                      onClick={() => handleDeleteCampaign(camp.id)}
+                      style={{
+                        padding: "4px 8px",
+                        fontSize: 11,
+                        fontWeight: 600,
+                        borderRadius: 4,
+                        border: "1px solid #FECACA",
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                        cursor: "pointer"
+                      }}
+                      title="Remove campaign from PostgreSQL"
+                    >
+                      ✕
+                    </button>
                   </div>
                 </div>
               </div>

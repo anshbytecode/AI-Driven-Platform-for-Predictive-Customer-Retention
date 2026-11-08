@@ -61,54 +61,6 @@ An enterprise-grade, end-to-end customer retention intelligence platform built w
     - Multiplied exposure: Customers at Risk × Predicted Future Revenue.
     - Recoverable revenue calculations, campaign spend, and net ROI multipliers.
 
-11. **Campaign Management Funnel**
-    - Full retention funnel tracking: `Targeted` → `Contacted` → `Responded` → `Retained` → `Churned`.
-    - Live campaign creation modal with segment selection and budget allocation.
-
-12. **A/B/C/D Experiment Matrix**
-    - 4-arm comparative experiment: Group A (10% Discount), Group B (Loyalty Points), Group C (Priority RM Concierge), Group D (Control).
-    - Statistical significance reporting (99.4% confidence) with winning strategy identification.
-
-13. **NLP & Sentiment Analysis**
-    - Transformer-based text classification across support tickets and NPS reviews.
-    - Emotion detection: `Angry`, `Frustrated`, `Satisfied`, `Neutral`.
-    - Topic extraction: `Pricing`, `Support SLA`, `Payment Gateways`, `App UX`, `Product Quality`.
-    - Correlates negative emotion with churn velocity.
-
-14. **GenAI Customer Insights (LLM Layer)**
-    - Conversational assistant answering natural language questions:
-      - *"Why are customers leaving this month?"*
-      - *"Which customers should we contact first?"*
-      - *"Show customers with high CLV and high churn risk."*
-
-15. **RAG-Based Business Assistant**
-    - Grounded in official banking retention directives:
-      - Meridian Retention Concession Policy #RET-2026-v2
-      - Fixed Deposit Rate Parity Directive
-      - Support SLA Escalation Guidelines
-      - Anti-Abuse Fraud Exclusion Rules
-    - Displays exact citations with answers.
-
-16. **Fraud & Anomaly Sentinel**
-    - Identifies suspicious refunds (e.g. 7 refunds in 18 days), duplicate device hashes, and velocity anomalies.
-    - Auto-excludes flagged accounts from costly retention discounts to prevent budget waste.
-
-17. **Real-Time Streaming Prediction Engine**
-    - Simulates real-time telemetry events (e.g., competitor page clicks, bounced gateway transactions).
-    - Writes directly to PostgreSQL and dynamically updates churn risk and recommendations in real time.
-
-18. **Multi-View Dashboards**
-    - Executive Overview, Customer 360 Ledger, Explainable AI, Segments & EWS, CLV & Next Best Action, What-If Simulator, Campaigns & A/B, NLP Sentiment, Fraud Sentinel, Real-Time Stream, Model Monitoring, Privacy & Audit, Portfolios, and Playbooks.
-
-19. **Model Performance & Drift Monitoring**
-    - Accuracy (92.4%), Precision (89.1%), Recall (94.2%), F1 (91.6%), ROC-AUC (0.941), PR-AUC (0.915).
-    - 2x2 Confusion Matrix (TP: 420, FP: 38, FN: 26, TN: 516).
-    - Feature Drift (PSI: 0.042) and Data Drift tracking on Model v4.2 Ensemble.
-
-20. **Privacy, Security & Role-Based Access Control (RBAC)**
-    - Configurable operational roles: `Head of Retention`, `Senior RM`, `Relationship Manager`, `Auditor / Compliance`.
-    - PII masking toggle with immutable access audit trails logged in PostgreSQL.
-
 ---
 
 ## 🛠️ Tech Stack & Database Setup
@@ -125,29 +77,7 @@ An enterprise-grade, end-to-end customer retention intelligence platform built w
 
 ---
 
-## Live Demo & Deployment
+## Deployment
 - **Frontend App**: https://predictive-customer-retention.netlify.app/
 
 ---
-
-## 🏃 Quick Start Guide
-
-### 1. Database Initialization
-```bash
-# Seed PostgreSQL schema and records
-npm run db:seed
-```
-
-### 2. Start the Backend API
-```bash
-# Starts Express REST API at http://localhost:5000
-npm run server
-```
-
-### 3. Start the Frontend
-```bash
-# Starts Vite development server at http://localhost:5173
-npm run dev
-```
-
-Visit **http://localhost:5173** to access the complete Meridian Retention Intelligence Platform!

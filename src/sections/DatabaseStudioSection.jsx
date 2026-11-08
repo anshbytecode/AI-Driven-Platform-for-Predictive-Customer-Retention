@@ -641,3 +641,4 @@ function RenderCellValue({ value, colName, onInspect }) {
 
   return <span>{String(value)}</span>;
 }
+

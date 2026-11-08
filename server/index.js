@@ -315,10 +315,11 @@ app.post('/api/behavior/track', async (req, res) => {
     const impact_delta = parseFloat(req.body.impact_delta || 0);
 
     if (customer_id) {
+      const category = req.body.event_category || metadata.category || 'Behavioral Signal';
       await dbQuery(
-        `INSERT INTO customer_behavior_events (customer_id, event_name, metadata)
-         VALUES ($1, $2, $3)`,
-        [customer_id, event_name, JSON.stringify(metadata)]
+        `INSERT INTO customer_behavior_events (customer_id, event_name, event_category, metadata)
+         VALUES ($1, $2, $3, $4)`,
+        [customer_id, event_name, category, JSON.stringify(metadata)]
       );
 
       if (impact_delta !== 0) {
@@ -359,9 +360,9 @@ app.post('/api/realtime/simulate-event', async (req, res) => {
     const { customer_id, event_type, description, impact_delta = 0 } = req.body;
     if (customer_id) {
       await dbQuery(`
-        INSERT INTO customer_behavior_events (customer_id, event_name, metadata)
-        VALUES ($1, $2, $3)
-      `, [customer_id, event_type || 'simulated_event', JSON.stringify({ description, impact_delta })]);
+        INSERT INTO customer_behavior_events (customer_id, event_name, event_category, metadata)
+        VALUES ($1, $2, $3, $4)
+      `, [customer_id, event_type || 'simulated_event', 'Real-time Telemetry', JSON.stringify({ description, impact_delta })]);
 
       if (impact_delta !== 0) {
         await dbQuery(`
@@ -672,6 +673,30 @@ app.get('/api/journeys', async (req, res) => {
   }
 });
 
+app.post('/api/journeys', async (req, res) => {
+  try {
+    const { id, name, trigger_criteria, current_active_enrolled = 25, steps = [], conversion_rate = 74.5, status = 'Active' } = req.body;
+    const query = `
+      INSERT INTO retention_journeys (id, name, trigger_criteria, current_active_enrolled, steps, conversion_rate, status)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING *
+    `;
+    const journeyId = id || `RJ-${Date.now().toString().slice(-6)}`;
+    const { rows } = await dbQuery(query, [
+      journeyId,
+      name || 'New AI Retention Journey',
+      trigger_criteria || 'High-Risk Trigger',
+      parseInt(current_active_enrolled, 10),
+      JSON.stringify(steps),
+      parseFloat(conversion_rate),
+      status
+    ]);
+    res.status(201).json(rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ---------------------------------------------------------------------------
 // 7. COHORT RETENTION ANALYSIS (Req 24)
 // ---------------------------------------------------------------------------
@@ -705,6 +730,30 @@ app.get('/api/closed-loop/feedback', async (req, res) => {
       average_correction: "+0.012 delta",
       records: rows
     });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/closed-loop/feedback', async (req, res) => {
+  try {
+    const { customer_id, predicted_churn_prob, intervention_deployed, customer_response, actual_retention_outcome, model_weight_correction } = req.body;
+    const query = `
+      INSERT INTO closed_loop_feedback (
+        customer_id, predicted_churn_prob, intervention_deployed, customer_response,
+        actual_retention_outcome, model_weight_correction
+      ) VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *
+    `;
+    const { rows } = await dbQuery(query, [
+      customer_id || 'AC-48291',
+      parseInt(predicted_churn_prob || 82, 10),
+      intervention_deployed || '20% Fee Waiver + 7.45% Deposit Rate Match',
+      customer_response || 'Accepted via WhatsApp Concierge',
+      actual_retention_outcome || 'Retained (Deposit Renewed for 12M)',
+      parseFloat(model_weight_correction || 0.014)
+    ]);
+    res.status(201).json(rows[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -820,22 +869,50 @@ app.get('/api/campaigns', async (req, res) => {
 
 app.post('/api/campaigns', async (req, res) => {
   try {
-    const { name, segment, channel, budget, target_count, status = 'Draft' } = req.body;
+    const b = req.body;
+    const id = b.id || `CMP-${Date.now().toString().slice(-6)}`;
+    const title = b.title || b.name || 'New Retention Campaign';
+    const target_segment = b.target_segment || b.segment || 'Dormant';
+    const intervention = b.intervention || '3x Bonus Loyalty Multiplier';
+    const channel = b.channel || 'Direct RM Concierge Call';
+    const status = b.status || 'Active';
+    const targeted = parseInt(b.targeted || b.target_count || 150, 10);
+    const contacted = parseInt(b.contacted || 0, 10);
+    const responded = parseInt(b.responded || 0, 10);
+    const retained = parseInt(b.retained || 0, 10);
+    const churned = parseInt(b.churned || 0, 10);
+    const budget = parseFloat(b.budget || 300000);
+    const cost_spent = parseFloat(b.cost_spent || 0);
+    const revenue_saved = parseFloat(b.revenue_saved || 0);
+    const roi_pct = parseFloat(b.roi_pct || 0);
+
     const query = `
-      INSERT INTO campaigns (name, segment, channel, budget, target_count, status)
-      VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING *
+      INSERT INTO campaigns (
+        id, title, target_segment, intervention, channel, status,
+        targeted, contacted, responded, retained, churned,
+        budget, cost_spent, revenue_saved, roi_pct
+      ) VALUES (
+        $1, $2, $3, $4, $5, $6,
+        $7, $8, $9, $10, $11,
+        $12, $13, $14, $15
+      ) RETURNING *
     `;
     const { rows } = await dbQuery(query, [
-      name || 'New Retention Campaign',
-      segment || 'At-Risk',
-      channel || 'WhatsApp / RM Call',
-      parseFloat(budget || 50000),
-      parseInt(target_count || 120),
-      status
+      id, title, target_segment, intervention, channel, status,
+      targeted, contacted, responded, retained, churned,
+      budget, cost_spent, revenue_saved, roi_pct
     ]);
+
+    // Also record in audit log
+    await dbQuery(
+      `INSERT INTO audit_logs (user_name, user_role, action, resource, details, pii_accessed)
+       VALUES ($1, $2, $3, $4, $5, $6)`,
+      ['Anshul', 'Lead Retention Strategist', 'CREATE_CAMPAIGN', 'Campaign Hub', `Created campaign "${title}" targeting ${target_segment}`, false]
+    ).catch(() => {});
+
     res.status(201).json(rows[0]);
   } catch (err) {
+    console.error('[Campaigns POST Error]', err.message);
     res.status(500).json({ error: err.message });
   }
 });

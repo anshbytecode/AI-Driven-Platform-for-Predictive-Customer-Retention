@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sparkles, Plus, Target, ArrowRight, CheckCircle2, TrendingUp, Layers, Award } from "lucide-react";
 import { COLOR } from "../constants/theme";
 import { fmtINR, fmtLakh } from "../utils/helpers";
 import Tag from "../components/ui/Tag";
-import { createCampaign } from "../api/client";
+import { fetchCampaigns, createCampaign } from "../api/client";
 
 export default function CampaignsAbSection({ showToast }) {
   const [activeTab, setActiveTab] = useState("campaigns"); // 'campaigns' or 'ab_tests'
@@ -64,6 +64,14 @@ export default function CampaignsAbSection({ showToast }) {
     }
   ]);
 
+  useEffect(() => {
+    fetchCampaigns().then(dbCampaigns => {
+      if (dbCampaigns && Array.isArray(dbCampaigns) && dbCampaigns.length > 0) {
+        setCampaigns(dbCampaigns);
+      }
+    }).catch(() => {});
+  }, []);
+
   // A/B Testing Data
   const abTests = [
     {
@@ -114,13 +122,10 @@ export default function CampaignsAbSection({ showToast }) {
     setShowCreateModal(false);
     setNewTitle("");
     showToast(`Campaign "${newTitle}" created and deployed to RM queue!`);
-    createCampaign({
-      name: newTitle,
-      segment: newSegment,
-      channel: "Direct RM Concierge Call",
-      budget: parseFloat(newBudget) || 50000,
-      target_count: 150,
-      status: "Active"
+    createCampaign(newCamp).then(saved => {
+      if (saved && saved.id) {
+        setCampaigns(prev => prev.map(c => c.id === newCamp.id ? saved : c));
+      }
     }).catch(err => console.warn('[Campaigns] Error saving to DB:', err));
   };
 

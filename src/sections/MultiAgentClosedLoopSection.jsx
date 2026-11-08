@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Bot, RefreshCw, CheckCircle2, ArrowRight, ShieldCheck, 
   BrainCircuit, Zap, Activity, Award, CheckSquare 
@@ -49,8 +49,50 @@ export default function MultiAgentClosedLoopSection({ showToast }) {
     }
   ]);
 
-  const handleTriggerLearningCycle = () => {
-    showToast("✓ Closed-loop learning cycle executed: Updated ensemble weights across 3 verified outcomes");
+  const fetchFeedback = () => {
+    fetch('/api/closed-loop/feedback')
+      .then(r => r.json())
+      .then(d => {
+        if (d && Array.isArray(d.records) && d.records.length > 0) {
+          const mapped = d.records.map(r => ({
+            id: r.id,
+            customer: `${r.name || 'Account'} (${r.customer_id})`,
+            prediction: `${r.predicted_churn_prob}% Churn Risk`,
+            intervention: r.intervention_deployed,
+            response: r.customer_response,
+            outcome: r.actual_retention_outcome,
+            correction: `${r.model_weight_correction > 0 ? '+' : ''}${r.model_weight_correction} Weight Correction`,
+            status: "Learned in PostgreSQL"
+          }));
+          setFeedbackRecords(mapped);
+        }
+      })
+      .catch(() => {});
+  };
+
+  useEffect(() => {
+    fetchFeedback();
+  }, []);
+
+  const handleTriggerLearningCycle = async () => {
+    showToast("✓ Closed-loop learning cycle executed: Updated ensemble weights across verified outcomes");
+    try {
+      await fetch('/api/closed-loop/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customer_id: 'AC-48291',
+          predicted_churn_prob: 88,
+          intervention_deployed: 'Special Rate Match + Senior RM Call',
+          customer_response: 'Accepted via Concierge WhatsApp',
+          actual_retention_outcome: 'Retained (Fixed Deposit Renewed)',
+          model_weight_correction: 0.016
+        })
+      });
+      fetchFeedback();
+    } catch (e) {
+      console.warn('Feedback post error:', e);
+    }
   };
 
   return (

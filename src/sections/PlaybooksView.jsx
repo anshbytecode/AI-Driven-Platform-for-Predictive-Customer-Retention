@@ -55,6 +55,24 @@ export default function PlaybooksView({ customers, onQueueMultiple, showToast })
     setNewIncentive("");
     setNewDesc("");
     showToast(`Created new playbook: "${newPb.title}"`);
+
+    fetch('/api/journeys', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: newPb.id,
+        name: newPb.title,
+        trigger_criteria: newPb.signal,
+        current_active_enrolled: newPb.matchedCount || 10,
+        steps: [
+          { step: 1, action: "Identify At-Risk Signal", delay: "Immediate" },
+          { step: 2, action: newPb.actionType, delay: "Within 2 Hours" },
+          { step: 3, action: newPb.incentive, delay: "Offer Delivery" }
+        ],
+        conversion_rate: 72.0,
+        status: "Active"
+      })
+    }).catch(err => console.warn('[Playbooks] Journey sync notice:', err));
   };
 
   return (

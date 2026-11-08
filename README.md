@@ -1,36 +1,11 @@
 # AI-Driven Platform for Predictive Customer Retention
-<<<<<<< HEAD
 ### Enterprise Churn Intelligence, Explainable AI, Next Best Action & PostgreSQL Backend
 
 An enterprise-grade, end-to-end customer retention intelligence platform built with **React, Vite, Node.js, Express, and PostgreSQL 17**. It predicts customer churn, explains risk drivers using SHAP/LIME, calculates Customer Lifetime Value (CLV), simulates concession policies, automates campaigns, and provides grounded GenAI insights via RAG.
 
 ---
 
-## 🚀 System Architecture
-
-```text
-Customer Data (Transactions, CRM, Webhooks, Telemetry)
-     ↓
-ETL & Feature Store (PostgreSQL 17.6 + Dynamic Vectors)
-     ↓
-ML Prediction Layer (Ensemble Classifier v4.2, ROC-AUC 0.941)
- ├── Churn Probability & Window (<30d, 30-60d, 60-90d)
- ├── Customer Lifetime Value (Current vs 12-Month CLV)
- ├── K-Means 9-Cluster Behavioral Segmentation
- └── Anomaly & Fraud Sentinel (Abnormal Refunds, Velocity Spikes)
-     ↓
-Explainable AI (SHAP Waterfall + LIME Decision Boundaries)
-     ↓
-Retention Engine & Next Best Action (Treatment-Effect Uplift)
-     ↓
-What-If Policy Simulator & Multi-Arm A/B Campaigns
-     ↓
-Executive, Customer 360, Analytics & Model Monitoring Dashboards
-```
-
----
-
-## 🌟 The 20 Enterprise Features Implemented
+## 🌟 The Enterprise Features Implemented
 
 1. **Customer Data & 360° Profile**
    - Demographics (City, Age, Gender, Occupation)
@@ -150,31 +125,6 @@ Executive, Customer 360, Analytics & Model Monitoring Dashboards
 
 ---
 
-## 🏃 Quick Start Guide
-
-### 1. Database Initialization
-```bash
-# Seed PostgreSQL schema and records
-npm run db:seed
-```
-
-### 2. Start the Backend API
-```bash
-# Starts Express REST API at http://localhost:5000
-npm run server
-```
-
-### 3. Start the Frontend
-```bash
-# Starts Vite development server at http://localhost:5173
-npm run dev
-```
-
-Visit **http://localhost:5173** to access the complete Meridian Retention Intelligence Platform!
-=======
-
-An AI-driven customer retention platform that helps businesses **predict customer churn, identify churn drivers, and take personalized retention actions**.
-
 ## Features
 
 * 🔮 Customer churn risk prediction
@@ -189,7 +139,5 @@ An AI-driven customer retention platform that helps businesses **predict custome
 
 **React.js • Vite • JavaScript • CSS • Node.js**
 
-Built to help businesses **identify at-risk customers early and improve retention through data-driven decisions.**
-
 https://predictive-customer-retention.netlify.app/
->>>>>>> 9e878aba1ab9205deea900f3c6716300711f862d
+

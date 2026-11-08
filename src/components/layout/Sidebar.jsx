@@ -1,15 +1,15 @@
-import { 
-  LayoutGrid, Users, ShieldAlert, Sparkles, Landmark, Bot, 
-  BrainCircuit, Sliders, Target, MessageSquareHeart, AlertOctagon, 
-  Activity, LineChart, Lock, Database, GitBranch, Heart, RefreshCw 
+import {
+  LayoutGrid, Users, ShieldAlert, Sparkles, Landmark, Bot,
+  BrainCircuit, Sliders, Target, MessageSquareHeart, AlertOctagon,
+  Activity, LineChart, Lock, Database, GitBranch, Heart, RefreshCw
 } from "lucide-react";
 import { COLOR } from "../../constants/theme";
 
-export default function Sidebar({ 
-  queuedCount = 0, 
-  activeSection, 
-  onSectionChange, 
-  onOpenCopilot, 
+export default function Sidebar({
+  queuedCount = 0,
+  activeSection,
+  onSectionChange,
+  onOpenCopilot,
   highRiskCount = 0,
   dbConnected = true
 }) {
@@ -55,15 +55,15 @@ export default function Sidebar({
   ];
 
   return (
-    <aside 
-      className="sidebar" 
-      style={{ 
-        background: COLOR.panel, 
-        color: "#C9CFDA", 
-        width: 255, 
-        flexShrink: 0, 
-        display: "flex", 
-        flexDirection: "column", 
+    <aside
+      className="sidebar"
+      style={{
+        background: COLOR.panel,
+        color: "#C9CFDA",
+        width: 255,
+        flexShrink: 0,
+        display: "flex",
+        flexDirection: "column",
         padding: "18px 12px",
         height: "100vh",
         position: "sticky",
@@ -149,13 +149,13 @@ export default function Sidebar({
                       <span>{it.label}</span>
                     </div>
                     {it.badge && (
-                      <span style={{ 
-                        fontSize: 9, 
-                        padding: "1px 5px", 
-                        borderRadius: 6, 
-                        background: it.tone === "risk" ? COLOR.risk : COLOR.brass, 
-                        color: "#fff", 
-                        fontWeight: 700 
+                      <span style={{
+                        fontSize: 9,
+                        padding: "1px 5px",
+                        borderRadius: 6,
+                        background: it.tone === "risk" ? COLOR.risk : COLOR.brass,
+                        color: "#fff",
+                        fontWeight: 700
                       }}>
                         {it.badge}
                       </span>

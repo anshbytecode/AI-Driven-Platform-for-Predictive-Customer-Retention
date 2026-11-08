@@ -50,6 +50,17 @@ export default function BehaviorTimelineSection({ customers = [], onOpenCustomer
 
     setEvents(prev => [newEv, ...prev]);
     showToast(`⚡ Real-Time Behavioral Update: ${selectedCust.name} risk shifted from ${currentRisk}% → ${nextRisk}%!`);
+
+    fetch('/api/behavior/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        customer_id: selectedCust.id,
+        event_name: item.event,
+        metadata: { label: item.label, category: item.category },
+        impact_delta: item.delta
+      })
+    }).catch(() => {});
   };
 
   const getHealthColor = (score) => {

@@ -2,7 +2,7 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { CUSTOMERS as INITIAL_CUSTOMERS, RELATIONSHIP_MANAGERS as INITIAL_RMS } from "../data/customers";
 import { COLOR, FONTS } from "../constants/theme";
 import { getSegment, csvEscape } from "../utils/helpers";
-import { fetchHealth, fetchCustomers, updateCustomer, logAuditAction } from "../api/client";
+import { fetchHealth, fetchCustomers, updateCustomer, createCustomer, logAuditAction } from "../api/client";
 
 import Sidebar from "../components/layout/Sidebar";
 import Topbar from "../components/layout/Topbar";
@@ -221,8 +221,9 @@ export default function MainDashboard({ user, onLogout }) {
     });
   };
 
-  const handleAddAccount = (newAcc) => {
+  const handleAddAccount = async (newAcc) => {
     setCustomers(prev => [newAcc, ...prev]);
+    await createCustomer(newAcc);
     showToast(`Added ${newAcc.name} (${newAcc.id}) to PostgreSQL database`);
   };
 

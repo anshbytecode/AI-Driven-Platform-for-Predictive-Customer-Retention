@@ -1,0 +1,27 @@
+{
+  "name": "meridian-retention-intelligence",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev:all": "concurrently \"npm run server\" \"npm run dev\"",
+    "dev": "vite",
+    "server": "node server/index.js",
+    "db:seed": "node server/seed.js",
+    "start": "node server/index.js",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "lucide-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-is": "^19.2.8",
+    "recharts": "latest"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.7",
+    "vite": "latest"
+  }
+}

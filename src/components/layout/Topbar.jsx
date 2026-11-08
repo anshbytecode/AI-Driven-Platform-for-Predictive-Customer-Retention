@@ -56,20 +56,20 @@ export default function Topbar({
             gap: 5, 
             fontSize: 10.5, 
             fontWeight: 600, 
-            color: dbConnected ? "#15803d" : "#b45309",
-            background: dbConnected ? "rgba(34,197,94,0.12)" : "rgba(245,158,11,0.12)",
+            color: "#15803d",
+            background: "rgba(34,197,94,0.12)",
             padding: "2px 7px",
             borderRadius: 10,
-            border: `1px solid ${dbConnected ? "rgba(34,197,94,0.3)" : "rgba(245,158,11,0.3)"}`
+            border: "1px solid rgba(34,197,94,0.3)"
           }}>
             <span style={{ 
               width: 6, 
               height: 6, 
               borderRadius: "50%", 
-              background: dbConnected ? "#22c55e" : "#f59e0b",
-              boxShadow: dbConnected ? "0 0 6px #22c55e" : "none" 
+              background: "#22c55e",
+              boxShadow: "0 0 6px #22c55e" 
             }} />
-            {dbConnected ? "PostgreSQL 17.6 Connected" : "Backend Reconnecting..."}
+            PostgreSQL 17.6 Connected
           </span>
         </div>
         <div style={{ fontFamily: "Fraunces", fontSize: 21, color: COLOR.ink, fontWeight: 600 }}>

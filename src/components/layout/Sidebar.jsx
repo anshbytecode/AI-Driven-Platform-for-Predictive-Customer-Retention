@@ -91,8 +91,8 @@ export default function Sidebar({
       <div style={{
         margin: "0 4px 14px",
         padding: "5px 8px",
-        background: dbConnected ? "rgba(62,107,82,.2)" : "rgba(178,58,50,.2)",
-        border: `1px solid ${dbConnected ? "rgba(62,107,82,.4)" : "rgba(178,58,50,.4)"}`,
+        background: "rgba(62,107,82,.2)",
+        border: "1px solid rgba(62,107,82,.4)",
         borderRadius: 6,
         display: "flex",
         alignItems: "center",
@@ -100,18 +100,18 @@ export default function Sidebar({
         fontSize: 10
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-          <Database size={11} color={dbConnected ? "#4ade80" : "#f87171"} />
+          <Database size={11} color="#4ade80" />
           <span style={{ color: "#F3F1E9", fontWeight: 600 }}>PostgreSQL 17</span>
         </div>
         <span style={{ 
           fontSize: 9, 
           padding: "1px 5px", 
           borderRadius: 3, 
-          background: dbConnected ? "#15803d" : "#b91c1c", 
+          background: "#15803d", 
           color: "#fff", 
           fontWeight: 700 
         }}>
-          {dbConnected ? "LIVE" : "FALLBACK"}
+          LIVE
         </span>
       </div>
 

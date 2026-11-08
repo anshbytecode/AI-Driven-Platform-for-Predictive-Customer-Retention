@@ -15,7 +15,6 @@ export const COLOR = {
   midSoft: "#E7D8B9",
   stable: "#3E6B52",
   stableSoft: "#CBDAD0",
-<<<<<<< HEAD
   blue: "#2563EB",
   purple: "#7C3AED",
   teal: "#0D9488",
@@ -40,16 +39,6 @@ export const SECTIONS = [
   "Real-Time Stream",
   "Model Monitoring",
   "Privacy & Security",
-=======
-};
-
-export const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');`;
-
-export const SECTIONS = [
-  "Overview",
-  "Risk Ledger",
-  "Segments",
->>>>>>> 9e878aba1ab9205deea900f3c6716300711f862d
   "AI Playbooks",
   "Portfolios",
 ];

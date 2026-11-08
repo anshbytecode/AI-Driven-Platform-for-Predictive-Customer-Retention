@@ -125,19 +125,29 @@ An enterprise-grade, end-to-end customer retention intelligence platform built w
 
 ---
 
-## Features
+## Live Demo & Deployment
+- **Frontend App**: https://predictive-customer-retention.netlify.app/
 
-* 🔮 Customer churn risk prediction
-* 📊 Interactive retention dashboard
-* 🧠 AI-powered retention recommendations
-* 🔍 Churn driver analysis
-* 👥 Customer segmentation
-* 🎯 Personalized retention playbooks
-* 📋 Customer risk management
+---
 
-## Tech Stack
+## 🏃 Quick Start Guide
 
-**React.js • Vite • JavaScript • CSS • Node.js**
+### 1. Database Initialization
+```bash
+# Seed PostgreSQL schema and records
+npm run db:seed
+```
 
-https://predictive-customer-retention.netlify.app/
+### 2. Start the Backend API
+```bash
+# Starts Express REST API at http://localhost:5000
+npm run server
+```
 
+### 3. Start the Frontend
+```bash
+# Starts Vite development server at http://localhost:5173
+npm run dev
+```
+
+Visit **http://localhost:5173** to access the complete Meridian Retention Intelligence Platform!

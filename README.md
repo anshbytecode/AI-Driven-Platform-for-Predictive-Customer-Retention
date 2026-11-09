@@ -80,4 +80,6 @@ An enterprise-grade, end-to-end customer retention intelligence platform built w
 ## Deployment
 - **Frontend**: https://predictiveanshulcustomerretention.netlify.app/
 
+- **Backend** https://ai-driven-platform-for-predictive-02ew.onrender.com/
+
 ---

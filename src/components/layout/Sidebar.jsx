@@ -192,6 +192,18 @@ export default function Sidebar({
           <div style={{ fontSize: 9, color: COLOR.brassLight }}>37 Modules Grounded RAG</div>
         </div>
       </div>
+
+      {/* Footer Copyright */}
+      <div style={{
+        marginTop: 14,
+        textAlign: "center",
+        fontSize: "10px",
+        color: "#64748B",
+        padding: "6px 2px 2px",
+        letterSpacing: "0.01em"
+      }}>
+        © 2026 Anshul Bhilare. All rights reserved.
+      </div>
     </aside>
   );
 }

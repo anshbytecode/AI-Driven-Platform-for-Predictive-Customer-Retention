@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { 
-  Check, X, Sparkles, Copy, Mail, MessageSquare, PhoneCall, 
-  Clock, FileText, UserCheck, CheckCircle2, ShieldAlert, Zap, 
-  DollarSign, Activity, AlertTriangle, Eye, EyeOff 
+import {
+  Check, X, Sparkles, Copy, Mail, MessageSquare, PhoneCall,
+  Clock, FileText, UserCheck, CheckCircle2, ShieldAlert, Zap,
+  DollarSign, Activity, AlertTriangle, Eye, EyeOff
 } from "lucide-react";
 import { COLOR } from "../../constants/theme";
 import { fmtINR, fmtLakh, segLabel, generateScript, maskEmail, maskPhone } from "../../utils/helpers";
@@ -10,15 +10,15 @@ import SignalDial from "../ui/SignalDial";
 import Sparkline from "../ui/Sparkline";
 import Tag from "../ui/Tag";
 
-export default function Drawer({ 
-  customer, 
-  onClose, 
-  queuedIds, 
-  onToggleQueue, 
-  onMarkStatus, 
-  onAddNote, 
-  onTriggerReassign, 
-  showToast, 
+export default function Drawer({
+  customer,
+  onClose,
+  queuedIds,
+  onToggleQueue,
+  onMarkStatus,
+  onAddNote,
+  onTriggerReassign,
+  showToast,
   rms = [],
   piiMasked = true
 }) {
@@ -31,8 +31,8 @@ export default function Drawer({
 
   const tone = customer.risk >= 65 ? "risk" : customer.risk >= 35 ? "mid" : "stable";
   const queued = queuedIds?.has(customer.id);
-  const rm = rms.find(r => r.id === customer.assigned_rm || r.id === customer.assignedRm) || { 
-    name: customer.rm_name || "Priya Sharma", 
+  const rm = rms.find(r => r.id === customer.assigned_rm || r.id === customer.assignedRm) || {
+    name: customer.rm_name || "Priya Sharma",
     role: customer.rm_role || "Senior RM — Private Banking",
     phone: customer.rm_phone || "+91 98201 44102"
   };
@@ -78,21 +78,21 @@ export default function Drawer({
     <div style={{ position: "fixed", inset: 0, zIndex: 45 }}>
       {/* Backdrop */}
       <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(15,24,38,.45)", backdropFilter: "blur(2px)" }} />
-      
+
       {/* Drawer Panel */}
-      <div style={{ 
-        position: "absolute", 
-        top: 0, 
-        right: 0, 
-        height: "100%", 
-        width: 480, 
-        maxWidth: "96vw", 
-        background: COLOR.paperRaised, 
-        boxShadow: "-8px 0 28px rgba(0,0,0,.2)", 
-        display: "flex", 
-        flexDirection: "column" 
+      <div style={{
+        position: "absolute",
+        top: 0,
+        right: 0,
+        height: "100%",
+        width: 480,
+        maxWidth: "96vw",
+        background: COLOR.paperRaised,
+        boxShadow: "-8px 0 28px rgba(0,0,0,.2)",
+        display: "flex",
+        flexDirection: "column"
       }}>
-        
+
         {/* Top Header */}
         <div style={{ padding: "18px 22px 12px", borderBottom: `1px solid ${COLOR.hair}`, background: "#fff" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
@@ -345,7 +345,7 @@ export default function Drawer({
           {activeTab === "notes" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               <div style={{ fontWeight: 600, fontSize: 13, color: COLOR.ink }}>Relationship Manager Log</div>
-              
+
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 <textarea
                   value={newNote}

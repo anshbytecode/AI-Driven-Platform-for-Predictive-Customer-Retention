@@ -437,6 +437,18 @@ export default function MainDashboard({ user, onLogout }) {
 
         {mainContent}
 
+        {/* Global Footer */}
+        <footer style={{
+          marginTop: "auto",
+          padding: "18px 24px 22px",
+          textAlign: "center",
+          fontSize: "11px",
+          color: COLOR.inkSoft,
+          borderTop: `1px solid ${COLOR.hair}`
+        }}>
+          © 2026 Anshul Bhilare. All rights reserved.
+        </footer>
+
         {/* Floating Bulk Action Bar */}
         <BulkBar
           count={selectedIds.size}

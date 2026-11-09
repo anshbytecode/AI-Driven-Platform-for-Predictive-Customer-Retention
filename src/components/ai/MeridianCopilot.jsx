@@ -4,15 +4,15 @@ import { COLOR } from "../../constants/theme";
 import { fmtINR } from "../../utils/helpers";
 import { queryCopilotAi } from "../../api/client";
 
-export default function MeridianCopilot({ 
-  isOpen, 
-  onClose, 
-  customers = [], 
-  playbooks = [], 
-  onOpenCustomer, 
-  onQueueMultiple, 
-  onSelectSection, 
-  initialQuery = "" 
+export default function MeridianCopilot({
+  isOpen,
+  onClose,
+  customers = [],
+  playbooks = [],
+  onOpenCustomer,
+  onQueueMultiple,
+  onSelectSection,
+  initialQuery = ""
 }) {
   const [messages, setMessages] = useState([
     {
@@ -165,7 +165,7 @@ Our treatment uplift model estimates **₹${Math.round(totalRiskBal * 0.78).toLo
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 55, display: "flex", justifyContent: "flex-end" }}>
       <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(15,24,38,.45)", backdropFilter: "blur(2px)" }} />
-      
+
       <div style={{
         position: "relative",
         width: 480,

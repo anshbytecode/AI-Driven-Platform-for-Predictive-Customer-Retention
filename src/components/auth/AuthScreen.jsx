@@ -118,6 +118,10 @@ export default function AuthScreen({ onLogin }) {
             </div>
           </div>
 
+          <div style={{ marginTop: 20, textAlign: "center", fontSize: "11px", color: COLOR.inkSoft }}>
+            © 2026 Anshul Bhilare. All rights reserved.
+          </div>
+
         </div>
 
       </div>
